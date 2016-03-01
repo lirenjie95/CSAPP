@@ -13,7 +13,7 @@ struct List
 	struct List *next;
 };// List is a hashtable element.
 struct List *hash[MOD];
-char s[MAXN][length];
+char s[MAXN][length],st[MAXN][length];
 int sj[length],Num[MAXN];
 FILE *fp;
 /*----------------------------------------------------------*/
@@ -37,10 +37,33 @@ void Qsort(int l,int r)
 	if(l<j) Qsort(l,j);
 }
 /*----------------------------------------------------------*/
+int divide()// Divide the article to several words.
+{
+	char ch;int len,count;
+	fp = fopen("raw.txt","r");
+	count = 0;
+	while(!feof(fp))
+    {
+        ch = getc(fp);
+        if((ch >= 'a'&&ch <= 'z')||(ch >= 'A'&&ch <= 'Z'))// A new word.
+        {
+            len=0;count++;
+            while((ch>='a'&&ch<='z')||(ch>='A'&&ch<='Z')||(ch=='\''))
+            {
+                if(ch >= 'A'&&ch <= 'Z') ch = ch+'a'-'A';
+                st[count][len++] = ch;
+                ch = getc(fp);
+            }
+            st[count][len++] = '\0';
+        }
+    }
+	fclose(fp);
+	return(count);
+}
+/*----------------------------------------------------------*/
 int main()
 {
-	int n,i,len,tot,key;
-	char ss[length];struct List *u,*p;
+	int i,j,len,tot,key,count;struct List *u,*p;
 	for(i = 0;i < MOD;i++)
 	{
 		hash[i] = (struct List *)malloc(sizeof(struct List));
@@ -48,32 +71,30 @@ int main()
 		hash[i]->flag = 0;
 		hash[i]->next = NULL;
 	}
-	tot=0;
+	tot = 0;
 	srand(time(NULL));
 	for(i = 0;i < length;i++)
 		sj[i] = rand() % MOD;
 	// sj[] is an array that can help to calculate the key value.
-	fp = fopen("middle.txt","r");
-	fscanf(fp,"%d",&n);
-	while(n--)
+	count = divide();
+	for(i = 1;i <= count;i++)
 	{
-		fscanf(fp,"%s",ss);
 		key = 0;
-		len = strlen(ss);
-		for(i = 0;i < len;i++)
-			key = (key + ss[i] - 'a') * sj[i] % MOD;
-			// It means that sum ss[i]*sj[i] is the key value.
+		len = strlen(st[i]);
+		for(j = 0;j < len;j++)
+			key = (key + st[i][j] - 'a') * sj[j] % MOD;
+			// It means that sum st[i][j]*sj[j] is the key value.
 		key = (key + MOD) % MOD;
 		if(strlen(hash[key]->str) == 0)// hash[key] does not exist.
 		{
-			strcpy(hash[key]->str,ss);
+			strcpy(hash[key]->str,st[i]);
 			hash[key]->flag = 1;
 			continue;
 		}
 		u=hash[key];
 		while(u)// hash[key] exists.
 		{
-			if(strcmp(u->str,ss) == 0)
+			if(strcmp(u->str,st[i]) == 0)
 			{
 				u->flag++;
 				break;
@@ -86,12 +107,11 @@ int main()
 		{
 			u = (struct List *)malloc(sizeof(struct List));
 			u->next = NULL;
-			strcpy(u->str,ss);
+			strcpy(u->str,st[i]);
 			u->flag = 1;
 			p->next = u;
 		}
 	}
-	fclose(fp);
 	for(i = 0;i < MOD;i++)
 		if(strlen(hash[i]->str) != 0)
 		{
