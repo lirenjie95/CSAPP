@@ -62,10 +62,15 @@ int main()
 		if((ch >= 'a'&&ch <= 'z')||(ch >= 'A'&&ch <= 'Z'))// A new word.
 		{
 			len=0;
-			while((ch>='a'&&ch<='z')||(ch>='A'&&ch<='Z')||(ch=='\''))
+			while((ch>='a'&&ch<='z')||(ch>='A'&&ch<='Z')||(ch=='\'')||(ch=='-'))
 			{
 				if(ch >= 'A'&&ch <= 'Z')
 					ch = ch+'a'-'A';
+				if(ch == '-') 
+				{
+					ch = getc(fp);
+					continue;
+				}
 				st[len++] = ch;
 				ch = getc(fp);
 			}
