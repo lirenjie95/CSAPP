@@ -1,0 +1,5 @@
+A. K=5: (x<<2)+x
+B: K=9: (x<<3)+x
+C: K=30: (x<<32)-(x<<1)
+D: K=-56: (x<<3)-(x<<6)
+The mothed is using x*2^n to calculate x*K.

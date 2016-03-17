@@ -1,0 +1,1 @@
+x		x<<3		x>>2(logical)		x>>2(arithmetic)
