@@ -1,1 +1,7 @@
-x		x<<3		x>>2(logical)		x>>2(arithmetic)
+x		x<<3		x>>2(logical)	x>>2(arithmetic)
+Bin	 Hex	Bin	 Hex	Bin	 Hex	Bin	 Hex
+11000011 0xC3	00011000 0x18	00110000 0x30	11110000 0xF0
+01110101 0x75	10101000 0xA8	00011101 0x1D	00011101 0x1D
+10000111 0x87	00111000 0x38	00100001 0x21	11100001 0xE1
+01100110 0x66	00110000 0x30	00011001 0x19	00011001 0x19
+Note: Hex is short for hexadecimal, and Bin is short for Binary.
