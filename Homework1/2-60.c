@@ -13,4 +13,5 @@ int main()
 	A = replace_byte(0x12345678,0xAB,2);
 	B = replace_byte(0x12345678,0xAB,0);
 	printf("A=%x, B=%x.\n",A,B);
+	return 0;
 }
