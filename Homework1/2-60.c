@@ -2,8 +2,7 @@
 unsigned replace_byte (unsigned x, unsigned char b, int i)
 {
 	unsigned y,z;
-	y = 0xFF<<(i<<3);
-	y = ~y;
+	y = ~(0xFF<<(i<<3));
 	z = b<<(i<<3);
 	return x&y|z;
 }
