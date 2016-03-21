@@ -1,13 +1,19 @@
 #include <stdio.h>
-#define TMax 0x7FFFFFFF
-#define TMin 0x80000000
+#define INT_MAX 0x7FFFFFFF
+#define INT_MIN 0x80000000
 int saturating_add(int x, int y)
 {
-	int Ans;
-	Ans = x+y;
-	if(x>=0&&y>=0&&Ans<0) return TMax;
-	if(x<0&&y<0&&Ans>=0) return TMin;
-	return Ans;
+	int w,t,ans,plus,minus,nop;
+	w = sizeof(int)<<3;
+	t = x + y;
+	ans = x + y;
+	x>>=(w-1);
+	y>>=(w-1);
+	t>>=(w-1);
+	plus = ~x&~y&t;
+	minus = x&y&~t;
+	nop = ~(plus|minus);
+	return (plus & INT_MAX)|(nop & ans)|(minus & INT_MIN);
 }
 int main()
 {
