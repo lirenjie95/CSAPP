@@ -18,6 +18,7 @@ Computer Systems: A Programmer's Perspective, a course in Fudan University, spri
   * `Lab4` Malloc Lab
 * Homeworks
   * `Homework1` for Chapter 2
+  * `Homework2` for Chapter 3
   * ...( To be continue)
 
 ---
