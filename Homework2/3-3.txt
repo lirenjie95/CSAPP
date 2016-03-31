@@ -1,0 +1,7 @@
+1 movb $0xF, (%bl) Cannot use %bl as address register
+2 movl %ax, (%esp) Mismatch between instruction suffix and register ID
+3 movw (%eax),4(%esp) Cannot have both source and destination be memory references
+4 movb %ah,%sh No register named %sh
+5 movl %eax,$0x123 Cannot have immediate as destination
+6 movl %eax,%dx Destination operand incorrect size
+7 movb %si, 8(%ebp) Mismatch between instruction suffix and register ID

@@ -1,0 +1,13 @@
+A. The suffix ¡®l¡¯ and the register identifiers indicate 32-bit operands, while the
+comparison is for ¡®!=¡¯, which is the same for signed or unsigned.We can infer
+that data_t must be either int, unsigned, or some type of pointer. For the
+first two cases, they could also have the long size designator.
+B. The suffix ¡®w¡¯ and the register identifier indicate 16-bit operands, while the
+comparison is for ¡®==¡¯, which is the same for signed or unsigned.We can infer
+that data_t must be either short or unsigned short.
+C. The suffix ¡®b¡¯ and the register identifier indicate an 8-bit operand, while the
+comparison is for two¡¯s complement ¡®>¡¯. We can infer that data_t must be
+char.
+D. The suffix ¡®w¡¯ and the register identifier indicate 16-bit operands, while the
+comparison is for unsigned ¡®>¡¯.We can infer that data_t must be unsigned
+short.

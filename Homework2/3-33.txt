@@ -1,0 +1,23 @@
+A. We started with %esp having value 0x800040. The pushl instruction on line 2
+decrements the stack pointer by 4, giving 0x80003C, and this becomes the
+new value of %ebp.
+B. Line 4 decrements the stack pointer by 40 (hex 0x28), yielding 0x800014.
+C. We can see how the two leal instructions (lines 5 and 7) compute the
+arguments to pass to scanf, while the two movl instructions (lines 6 and 8)
+store them on the stack. Since the function arguments appear on the stack at
+increasingly positive offsets from %esp, we can conclude that line 5 computes
+&x, while line 7 computes line &y.These have values 0x800038 and 0x800034,
+respectively.
+D. The stack frame has the following structure and contents:
+0x80003C	0x800060 <- %ebp
+0x800038	0x53	 <- x
+0x800034	0x46	 <- y
+0x800030
+0x80002C
+0x800028
+0x800024
+0x800020
+0x80001C	0x800038
+0x800018	0x800034
+0x800014	0x300070 <- %esp
+E. Byte addresses 0x800020 through 0x800033 are unused.

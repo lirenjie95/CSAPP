@@ -1,0 +1,13 @@
+A. We can see that the program is performing multiprecision operations on
+64-bit data. We can also see that the 64-bit multiply operation (line 4) uses
+unsigned arithmetic, and so we conclude that num_t is unsigned long long.
+
+B.
+1 movl 12(%ebp), %eax Get x
+2 movl 20(%ebp), %ecx Get y_h
+3 imull %eax, %ecx Compute s = x*y_h
+4 mull 16(%ebp) Compute t = x*y_l
+5 leal (%ecx,%edx), %edx Add s to t_h
+6 movl 8(%ebp), %ecx Get dest
+7 movl %eax, (%ecx) Store t_l
+8 movl %edx, 4(%ecx) Store s+t_h
