@@ -1,0 +1,4 @@
+A. eax: result, ebx: s1.v, edx: s1.p
+B. ebp-4: s1, ebp-8: s2, ebp-12: y, ebp-16: &x, ebp-20: s2
+C. Press these members of the structure from high to low address into the stack
+D. At adress 'retaddr+4' in the stack£¬Assign a pointer to the structure as the return address.
