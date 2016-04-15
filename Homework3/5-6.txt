@@ -1,0 +1,4 @@
+This problem demonstrates that minimizing the number of operations in a computation may not improve its performance.
+A. The function performs n multiplications and n additions, half the number of multiplications as the original function poly.
+B. We can see that the performance limiting computation here is the repeated computation of the expression result = a[i] + x*result. Starting from the value of result from the previous iteration, we must first multiply it by x(5 clock cycles) and then add it to a[i] (3 cycles) before we have the value for this iteration. Thus, each iteration imposes a minimum latency of 8 cycles, exactly our measured CPE.
+C. Although each iteration in function poly requires two multiplications rather than one, only a single multiplication occurs along the critical path per iteration.
