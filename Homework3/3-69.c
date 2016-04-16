@@ -1,7 +1,7 @@
 //A.
 long trace(tree_ptr tp)
 {
-	long x;
+	long x = 0;
 	while(tp!=NULL)
 	{
 		x = tp->val;
@@ -12,10 +12,10 @@ long trace(tree_ptr tp)
 /*
 B. This function computes the most left node's value of a tree.
                   o
-				 / \
-				o   o
-			   / \ / \
-			  o  o o  o
-			  ^
-		      Like this.
+		 / \
+		o   o
+	       / \ / \
+	      o  o o  o
+	      ^
+              Like this.
 */
