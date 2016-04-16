@@ -1,0 +1,11 @@
+A. 
+e1.p: 0
+e1.x: 4
+e2.y: 0
+e2.next: 4
+B. 8 bytes
+C.
+void proc (union ele *up)
+{
+	up->e2.next->e1.x = *(up->e2.next->e1.p)-up->e2.y;
+}
