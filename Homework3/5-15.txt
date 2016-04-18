@@ -1,0 +1,4 @@
+A. It is difficult for me to draw a picture on the computer. If you really need the picture, please contact me.[lol]
+B. The add operation of sum and xdata[i]*ydata[i]
+C. Load.
+D. Because multiplication operation is not in the critical path.
