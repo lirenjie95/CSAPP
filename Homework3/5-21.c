@@ -3,7 +3,7 @@ void psum(float a[], float p[], long int n)
 	long int n;
 	float val = 0;
 	float v0,v1;
-	for(i = 1; i < n-1; i+=2)
+	for(i = 0; i < n-1; i+=2)
 	{
 		v0 = a[i];
 		v1 = a[i+1];
