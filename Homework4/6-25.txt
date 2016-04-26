@@ -1,0 +1,9 @@
+T_avgrotation = 1/2*(60sec/12000RPM)*1000ms/sec = 2.5ms
+T_maxrotation = 2*T_avgrotation = 5ms
+T_avgtransfer = 60sec/12000RPM*1/500*1000ms/sec = 0.01ms
+3MB/1024 = 3000blocks
+So it needs 6 rotations( 500 sectors per rotation).
+A. Best case
+T = T_seek+T_avgrotation+6*T_maxrotation = 35.5ms
+B. Random case
+T = (T_seek+T_avgrotation)*3000 = 16500ms

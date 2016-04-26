@@ -1,0 +1,3 @@
+At run time, the first iteration of the loop references x[0], a miss that causes the block containing x[0]¨Cx[3] to be loaded into set 0. The next reference is to y[0], another miss that causes the block containing y[0]¨Cy[3] to be copied into
+set 1. Then about x[4] and y[4]. Only four conflicts in twelve references.
+So the answer is 3/4.

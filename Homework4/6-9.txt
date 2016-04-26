@@ -1,0 +1,2 @@
+clear1 > clear2 > clear3
+Function clear1 accesses the array using a stride-1 reference pattern and thus clearly has the best spatial locality. Function clear2 scans each of the N structs in order, which is good, but within each struct it hops around in a non-stride-1 pattern at the following offsets from the beginning of the struct: 0, 12, 4, 16, 8, 20. So clear2 has worse spatial locality than clear1. Function clear3 not only hops around within each struct, but it also hops from struct to struct. So clear3 exhibits worse spatial locality than clear2 and clear1.
