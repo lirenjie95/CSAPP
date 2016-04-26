@@ -1,0 +1,3 @@
+A.unix> gcc -static p.o libx.a
+B.unix> gcc -static p.o libx.a liby.a libx.a
+C.unix> gcc -static p.o libx.a liby.a libx.a libz.a

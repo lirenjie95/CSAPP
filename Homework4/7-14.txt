@@ -1,0 +1,16 @@
+A. .text:
+        0x25 R_386_32 .text
+        0x11 R_386_32 .text
+        0x28 R_386_32 .text
+        0x28 R_386_32 .text
+        0x28 R_386_32 .text
+B. .rodata:
+        0x0 R_386_32 .rodata
+        0x4 R_386_32 .rodata
+        0x8 R_386_32 .rodata
+        0xc R_386_32 .rodata
+        0x10 R_386_32 .rodata
+        0x14 R_386_32 .rodata
+
+Using objdump to help solve this problem:
+unix> objdump -rs a.o
