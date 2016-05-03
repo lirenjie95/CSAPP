@@ -18,4 +18,5 @@ B. This function computes the most left node's value of a tree.
 	      o  o o  o
 	      ^
               Like this.
+If the tree is NULL, return 0.
 */

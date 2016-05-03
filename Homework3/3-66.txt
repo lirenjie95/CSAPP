@@ -1,6 +1,6 @@
 A.CNT = 7
 B.
-struct {
+typedef struct {
 	int idx;
 	int x[6];
 }a_struct;
