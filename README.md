@@ -21,6 +21,8 @@ Computer Systems: A Programmer's Perspective, a course in Fudan University, spri
   * `Homework2` for Chapter 3
   * `Homework3` for Chapter 3 and Chapter 5
   * `Homework4` for Chapter 6 and Chapter 7
+  * `Homework5` for Chapter 8
+  * `Homework6` for Chapter 9
   * ...( To be continue)
 
 ---
