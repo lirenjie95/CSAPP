@@ -1,0 +1,7 @@
+The parent prints b and then c.
+The child prints a and then c.
+But we do not know when the child stops.
+So there are three answers.
+acbc
+bacc
+abcc

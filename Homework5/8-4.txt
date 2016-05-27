@@ -1,0 +1,14 @@
+A. Six output lines.
+B. The ordering of the output lines will vary from system to system, depending on the how the kernel interleaves the instructions of the parent and the child. In general, any topological sort of the following graph is a valid ordering:
+       -->0-->2-->Bye      Parent process
+     /
+Hello
+     \
+       -->1-->Bye          Child process
+Example output:
+Hello
+0
+1
+Bye
+2
+Bye
