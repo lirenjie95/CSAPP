@@ -1,0 +1,2 @@
+Each process has its own separate address space, so the decrement by the child has no impact on the parent¡¯s copy of counter. Therefore the output is:
+counter = 2

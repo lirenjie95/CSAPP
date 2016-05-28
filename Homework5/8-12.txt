@@ -1,0 +1,1 @@
+There are four processes, each of which prints one "hello" line in doit and one "hello" line in main after it returns from doit.So, the program prints a total of eight "hello" lines.

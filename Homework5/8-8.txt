@@ -1,0 +1,2 @@
+The answer is 213.
+The parent process prints 2. And then, it uses function ' kill' to make child process print 1. Finally, the parent process prints 3.

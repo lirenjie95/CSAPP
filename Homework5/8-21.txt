@@ -1,0 +1,1 @@
+The parent process prints "b" and "c", and the child process prints "a". So there are two answers: "bac" and "abc".
