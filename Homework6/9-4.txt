@@ -1,0 +1,15 @@
+A. 00 0011 1101 0111
+B. Parameter Value
+VPN 0xf
+TLB index 0x3
+TLB tag 0x3
+TLB hit? (Y/N) Y
+Page fault? (Y/N) N
+PPN 0xd
+C. 0011 0101 0111
+D. Parameter Value
+Byte offset 0x3
+Cache index 0x5
+Cache tag 0xd
+Cache hit? (Y/N) Y
+Cache byte returned 0x1d
