@@ -1,0 +1,9 @@
+A. 00 0000 0100 0000
+B. VPN: 0x1
+TLBI: 0x1
+TLBT: 0x0
+TLB hit? N
+page fault? Y
+PPN: -
+C. n/a
+D. n/a

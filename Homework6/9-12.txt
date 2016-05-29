@@ -1,0 +1,13 @@
+A. 00 0011 1010 1001
+B. VPN: 0xe
+TLBI: 0x2
+TLBT: 0x3
+TLB hit? N
+page fault? N
+PPN: 0x11
+C. 0100 0110 1001
+D. CO: 0x1
+CI: 0xa
+CT: 0x11
+cache hit? N
+cache byte? -
