@@ -1,13 +1,9 @@
-/*********************************************************
+/*******************************************************
 * Kernels to be optimized for the CS:APP Performance Lab
 ********************************************************/
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "defs.h"
-
-
 /* 
  * Please fill in the following team struct 
  */
@@ -15,23 +11,15 @@ team_t team = {
     "13307130279",              /* Team name */
     "13307130279",     		/* First member full name */
     "13307130279@fudan.edu.cn",	/* First member email address */
-
-
     "",                   /* Second member full name (leave blank if none) */
     ""                    /* Second member email addr (leave blank if none) */
 };
-
-
 /***************
  * ROTATE KERNEL
  ***************/
-
-
 /******************************************************
  * Your different versions of the rotate kernel go here
  ******************************************************/
-
-
 /* 
  * naive_rotate - The naive baseline version of rotate 
  */
@@ -45,8 +33,6 @@ void naive_rotate(int dim, pixel *src, pixel *dst)
 	for (j = 0; j < dim; j++)
 	    dst[RIDX(dim-1-j, i, dim)] = src[RIDX(i, j, dim)];
 }
-
-
 /* 
  * rotate - Your current working version of rotate
  * IMPORTANT: This is the version you will be graded on
@@ -99,8 +85,6 @@ void rotate(int dim, pixel *src, pixel *dst)
 		src += (dim<<5)-dim;// Reset
 	}
 }
-
-
 /*********************************************************************
  * register_rotate_functions - Register all of your different versions
  *     of the rotate kernel with the driver by calling the
@@ -108,29 +92,19 @@ void rotate(int dim, pixel *src, pixel *dst)
  *     driver program, it will test and report the performance of each
  *     registered test function.  
  *********************************************************************/
-
-
 void register_rotate_functions() 
 {
     add_rotate_function(&naive_rotate, naive_rotate_descr);   
     add_rotate_function(&rotate, rotate_descr);   
     /* ... Register additional test functions here */
 }
-
-
-
-
 /***************
  * SMOOTH KERNEL
  **************/
-
-
 /***************************************************************
  * Various typedefs and helper functions for the smooth function
  * You may modify these any way you like.
  **************************************************************/
-
-
 /* A struct used to compute averaged pixel value */
 typedef struct {
     int red;
@@ -138,13 +112,9 @@ typedef struct {
     int blue;
     int num;
 } pixel_sum;
-
-
 /* Compute min and max of two integers, respectively */
 static int min(int a, int b) { return (a < b ? a : b); }
 static int max(int a, int b) { return (a > b ? a : b); }
-
-
 /* 
  * initialize_pixel_sum - Initializes all fields of sum to 0 
  */
@@ -154,8 +124,6 @@ static void initialize_pixel_sum(pixel_sum *sum)
     sum->num = 0;
     return;
 }
-
-
 /* 
  * accumulate_sum - Accumulates field values of p in corresponding 
  * fields of sum 
@@ -168,8 +136,6 @@ static void accumulate_sum(pixel_sum *sum, pixel p)
     sum->num++;
     return;
 }
-
-
 /* 
  * assign_sum_to_pixel - Computes averaged pixel value in current_pixel 
  */
@@ -180,8 +146,6 @@ static void assign_sum_to_pixel(pixel *current_pixel, pixel_sum sum)
     current_pixel->blue = (unsigned short) (sum.blue/sum.num);
     return;
 }
-
-
 /* 
  * avg - Returns averaged pixel value at (i,j) 
  */
@@ -190,24 +154,16 @@ static pixel avg(int dim, int i, int j, pixel *src)
     int ii, jj;
     pixel_sum sum;
     pixel current_pixel;
-
-
     initialize_pixel_sum(&sum);
     for(ii = max(i-1, 0); ii <= min(i+1, dim-1); ii++) 
 	for(jj = max(j-1, 0); jj <= min(j+1, dim-1); jj++) 
 	    accumulate_sum(&sum, src[RIDX(ii, jj, dim)]);
-
-
     assign_sum_to_pixel(&current_pixel, sum);
     return current_pixel;
 }
-
-
 /******************************************************
  * Your different versions of the smooth kernel go here
  ******************************************************/
-
-
 /*
  * naive_smooth - The naive baseline version of smooth 
  */
@@ -221,8 +177,6 @@ void naive_smooth(int dim, pixel *src, pixel *dst)
 	for (j = 0; j < dim; j++)
 	    dst[RIDX(i, j, dim)] = avg(dim, i, j, src);
 }
-
-
 /*
  * smooth - Your current working version of smooth. 
  * IMPORTANT: This is the version you will be graded on
@@ -299,7 +253,7 @@ void smooth(int dim, pixel *src, pixel *dst)
 		sum0_red+=vis1->red;	sum0_blue+=vis1->blue;	sum0_green+=vis1->green;	
 		vis1++;vis2++;vis3++;vis4++;	
 		//First bvisk
-		sum1_red=vis2->red;	    sum1_blue=vis2->blue;	sum1_green=vis2->green;
+		sum1_red=vis2->red;	sum1_blue=vis2->blue;	sum1_green=vis2->green;
 		sum1_red+=vis3->red;    sum1_blue+=vis3->blue;	sum1_green+=vis3->green;
 		sum4_red=sum1_red+vis4->red;
 		sum4_green=sum1_green+vis4->green;
@@ -307,7 +261,7 @@ void smooth(int dim, pixel *src, pixel *dst)
 		sum1_red+=vis1->red;	sum1_blue+=vis1->blue;	sum1_green+=vis1->green;	
 		vis1++;vis2++;vis3++;vis4++;	
 		//Next block
-		sum2_red=vis2->red;	    sum2_blue=vis2->blue;	sum2_green=vis2->green;
+		sum2_red=vis2->red;	sum2_blue=vis2->blue;	sum2_green=vis2->green;
 		sum2_red+=vis3->red;    sum2_blue+=vis3->blue;	sum2_green+=vis3->green;
 		sum5_red=sum2_red+vis4->red;
 		sum5_green=sum2_green+vis4->green;
@@ -325,16 +279,16 @@ void smooth(int dim, pixel *src, pixel *dst)
 		dst[next].green=(sum3_green+sum4_green+sum5_green)/9;
 		next++;	
 		// Make the next row.
-		sum0_red=sum1_red;		sum1_red=sum2_red;
+		sum0_red=sum1_red;	sum1_red=sum2_red;
 		sum0_green=sum1_green;	sum1_green=sum2_green;
 		sum0_blue=sum1_blue;	sum1_blue=sum2_blue;    
-		sum3_red=sum4_red;		sum4_red=sum5_red;
+		sum3_red=sum4_red;	sum4_red=sum5_red;
 		sum3_green=sum4_green;	sum4_green=sum5_green;
 		sum3_blue=sum4_blue;	sum4_blue=sum5_blue;
 		// Save these to calculate the next.
 		for(j=2;j<dim-4;j+=4)
 		{
-			sum2_red=vis2->red;	    sum2_blue=vis2->blue;	sum2_green=vis2->green;
+			sum2_red=vis2->red;	sum2_blue=vis2->blue;	sum2_green=vis2->green;
 			sum2_red+=vis3->red;    sum2_blue+=vis3->blue;	sum2_green+=vis3->green;
 			sum5_red=sum2_red+vis4->red;
 			sum5_green=sum2_green+vis4->green;
@@ -352,14 +306,14 @@ void smooth(int dim, pixel *src, pixel *dst)
 			dst[next].green=((sum3_green+sum4_green+sum5_green)/9);
 			next++;	
 			// Make the next row.
-			sum0_red=sum1_red;		sum1_red=sum2_red;
+			sum0_red=sum1_red;	sum1_red=sum2_red;
 			sum0_green=sum1_green;	sum1_green=sum2_green;
 			sum0_blue=sum1_blue;	sum1_blue=sum2_blue;    
-			sum3_red=sum4_red;		sum4_red=sum5_red;
+			sum3_red=sum4_red;	sum4_red=sum5_red;
 			sum3_green=sum4_green;	sum4_green=sum5_green;
 			sum3_blue=sum4_blue;	sum4_blue=sum5_blue;
 			// Save these to calculate the next.
-			sum2_red=vis2->red;	    sum2_blue=vis2->blue;	sum2_green=vis2->green;
+			sum2_red=vis2->red;	sum2_blue=vis2->blue;	sum2_green=vis2->green;
 			sum2_red+=vis3->red;    sum2_blue+=vis3->blue;	sum2_green+=vis3->green;
 			sum5_red=sum2_red+vis4->red;
 			sum5_green=sum2_green+vis4->green;
@@ -374,14 +328,14 @@ void smooth(int dim, pixel *src, pixel *dst)
 			dst[next].blue=((sum3_blue+sum4_blue+sum5_blue)/9);
 			dst[next].green=((sum3_green+sum4_green+sum5_green)/9);
 			next++;
-			sum0_red=sum1_red;		sum1_red=sum2_red;
+			sum0_red=sum1_red;	sum1_red=sum2_red;
 			sum0_green=sum1_green;	sum1_green=sum2_green;
 			sum0_blue=sum1_blue;	sum1_blue=sum2_blue;    
-			sum3_red=sum4_red;		sum4_red=sum5_red;
+			sum3_red=sum4_red;	sum4_red=sum5_red;
 			sum3_green=sum4_green;	sum4_green=sum5_green;
 			sum3_blue=sum4_blue;	sum4_blue=sum5_blue;
 			// 2 road
-			sum2_red=vis2->red;	    sum2_blue=vis2->blue;	sum2_green=vis2->green;
+			sum2_red=vis2->red;	sum2_blue=vis2->blue;	sum2_green=vis2->green;
 			sum2_red+=vis3->red;	sum2_blue+=vis3->blue;	sum2_green+=vis3->green;
 			sum5_red=sum2_red+vis4->red;
 			sum5_green=sum2_green+vis4->green;
@@ -396,10 +350,10 @@ void smooth(int dim, pixel *src, pixel *dst)
 			dst[next].blue=((sum3_blue+sum4_blue+sum5_blue)/9);
 			dst[next].green=((sum3_green+sum4_green+sum5_green)/9);
 			next++;
-			sum0_red=sum1_red;		sum1_red=sum2_red;
+			sum0_red=sum1_red;	sum1_red=sum2_red;
 			sum0_green=sum1_green;	sum1_green=sum2_green;
 			sum0_blue=sum1_blue;	sum1_blue=sum2_blue;    
-			sum3_red=sum4_red;		sum4_red=sum5_red;
+			sum3_red=sum4_red;	sum4_red=sum5_red;
 			sum3_green=sum4_green;	sum4_green=sum5_green;
 			sum3_blue=sum4_blue;	sum4_blue=sum5_blue;
 			// 3 road
@@ -410,25 +364,25 @@ void smooth(int dim, pixel *src, pixel *dst)
 			sum5_blue=sum2_blue+vis4->blue;
 			sum2_red+=vis1->red;	sum2_blue+=vis1->blue;	sum2_green+=vis1->green;	
 			vis1++;vis2++;vis3++;vis4++;
-		    dst[first].red=((sum0_red+sum1_red+sum2_red)/9);
-		    dst[first].blue=((sum0_blue+sum1_blue+sum2_blue)/9);
-		    dst[first].green=((sum0_green+sum1_green+sum2_green)/9);
-		    first++;
+		    	dst[first].red=((sum0_red+sum1_red+sum2_red)/9);
+		    	dst[first].blue=((sum0_blue+sum1_blue+sum2_blue)/9);
+		    	dst[first].green=((sum0_green+sum1_green+sum2_green)/9);
+		    	first++;
 			dst[next].red=((sum3_red+sum4_red+sum5_red)/9);
 			dst[next].blue=((sum3_blue+sum4_blue+sum5_blue)/9);
 			dst[next].green=((sum3_green+sum4_green+sum5_green)/9);
 			next++;
-		    sum0_red=sum1_red;		sum1_red=sum2_red;
+		    	sum0_red=sum1_red;	sum1_red=sum2_red;
 			sum0_green=sum1_green;	sum1_green=sum2_green;
 			sum0_blue=sum1_blue;	sum1_blue=sum2_blue;    
-			sum3_red=sum4_red;		sum4_red=sum5_red;
+			sum3_red=sum4_red;	sum4_red=sum5_red;
 			sum3_green=sum4_green;	sum4_green=sum5_green;
 			sum3_blue=sum4_blue;	sum4_blue=sum5_blue;
 			// 4 road
 		}
 		for(;j<dim-1;j++)
 		{
-			sum2_red=vis2->red;	    sum2_blue=vis2->blue;	sum2_green=vis2->green;
+			sum2_red=vis2->red;	sum2_blue=vis2->blue;	sum2_green=vis2->green;
 			sum2_red+=vis3->red;	sum2_blue+=vis3->blue;	sum2_green+=vis3->green;
 			sum5_red=sum2_red+vis4->red;
 			sum5_green=sum2_green+vis4->green;
@@ -443,10 +397,10 @@ void smooth(int dim, pixel *src, pixel *dst)
 			dst[next].blue=((sum3_blue+sum4_blue+sum5_blue)/9);
 			dst[next].green=((sum3_green+sum4_green+sum5_green)/9);
 			next++;
-		    sum0_red=sum1_red;		sum1_red=sum2_red;
+		    	sum0_red=sum1_red;	sum1_red=sum2_red;
 			sum0_green=sum1_green;	sum1_green=sum2_green;
 			sum0_blue=sum1_blue;	sum1_blue=sum2_blue;    
-			sum3_red=sum4_red;		sum4_red=sum5_red;
+			sum3_red=sum4_red;	sum4_red=sum5_red;
 			sum3_green=sum4_green;	sum4_green=sum5_green;
 			sum3_blue=sum4_blue;	sum4_blue=sum5_blue;
 		}
@@ -458,10 +412,6 @@ void smooth(int dim, pixel *src, pixel *dst)
 		vis4+=dim;//src[+1][0]
 	}
 }
-
-
-
-
 /********************************************************************* 
  * register_smooth_functions - Register all of your different versions
  *     of the smooth kernel with the driver by calling the
@@ -469,8 +419,6 @@ void smooth(int dim, pixel *src, pixel *dst)
  *     driver program, it will test and report the performance of each
  *     registered test function.  
  *********************************************************************/
-
-
 void register_smooth_functions() {
     add_smooth_function(&smooth, smooth_descr);
     add_smooth_function(&naive_smooth, naive_smooth_descr);
