@@ -8,9 +8,9 @@
  * Please fill in the following team struct 
  */
 team_t team = {
-    "13307130279",              /* Team name */
-    "13307130279",     		/* First member full name */
-    "13307130279@fudan.edu.cn",	/* First member email address */
+    "Naive",              /* Team name */
+    "RenjieLi",     		/* First member full name */
+    "rjli13@fudan.edu.cn",	/* First member email address */
     "",                   /* Second member full name (leave blank if none) */
     ""                    /* Second member email addr (leave blank if none) */
 };
