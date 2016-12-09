@@ -16,7 +16,7 @@ Computer Systems: A Programmer's Perspective, a course in Fudan University, spri
   * `Lab2` Bomb Lab
   * `Lab3` Perf Lab
   * `Lab4` Malloc Lab
-  * `Plus` Data Lab, Attack Lab, Cache Lab, Shell Lab,	Proxy Lab
+  * `Plus` Data Lab, Attack Lab, Cache Lab, Shell Lab,	Proxy Lab ( not required in Fudan EE department)
 * Homeworks
   * `Homework1` for Chapter 2
   * `Homework2` for Chapter 3
