@@ -25,105 +25,97 @@ unsigned f2u(float f) {
   return a.u;
 }
 
-//1
-int test_bitOr(int x, int y)
+int test_bitAnd(int x, int y)
 {
-  return x|y;
+  return x&y;
 }
-int test_specialBits(void) {
-    return 0xffca3fff;
+int test_getByte(int x, int n)
+{
+    unsigned char byte;
+    switch(n) {
+    case 0:
+      byte = x;
+      break;
+    case 1:
+      byte = x >> 8;
+      break;
+    case 2:
+      byte = x >> 16;
+      break;
+    default:
+      byte = x >> 24;
+      break;
+    }
+    return (int) (unsigned) byte;
 }
-//2
-int test_isZero(int x) {
-  return x == 0;
-}
-int test_anyEvenBit(int x) {
-  int i;
-  for (i = 0; i < 32; i+=2)
-      if (x & (1<<i))
-   return 1;
-  return 0;
-}
-
-
-
-
-
-
-
-int test_negate(int x) {
-  return -x;
-}
-int test_leastBitPos(int x) {
-  int mask = 1;
-  if (x == 0)
-    return 0;
-  while (!(mask & x)) {
-    mask = mask << 1;
-  }
-  return mask;
-}
-//3
-int test_rotateLeft(int x, int n) {
+int test_logicalShift(int x, int n) {
   unsigned u = (unsigned) x;
+  unsigned shifted = u >> n;
+  return (int) shifted;
+}
+int test_bitCount(int x) {
+  int result = 0;
   int i;
-  for (i = 0; i < n; i++) {
-      unsigned msb = u >> 31;
-      unsigned rest = u << 1;
-      u = rest | msb;
-  }
-  return (int) u;
+  for (i = 0; i < 32; i++)
+    result += (x >> i) & 0x1;
+  return result;
+}
+int test_bang(int x)
+{
+  return !x;
+}
+int test_tmin(void) {
+  return 0x80000000;
+}
+int test_fitsBits(int x, int n)
+{
+  int TMin_n = -(1 << (n-1));
+  int TMax_n = (1 << (n-1)) - 1;
+  return x >= TMin_n && x <= TMax_n;
 }
 int test_divpwr2(int x, int n)
 {
     int p2n = 1<<n;
     return x/p2n;
 }
-int test_isLess(int x, int y)
+int test_negate(int x) {
+  return -x;
+}
+int test_isPositive(int x) {
+  return x > 0;
+}
+int test_isLessOrEqual(int x, int y)
 {
-  return x < y;
+  return x <= y;
 }
-//4
-
-int test_isPower2(int x) {
-  int i;
-  for (i = 0; i < 31; i++) {
-    if (x == 1<<i)
-      return 1;
+int test_ilog2(int x) {
+  int mask, result;
+  /* find the leftmost bit */
+  result = 31;
+  mask = 1 << result;
+  while (!(x & mask)) {
+    result--;
+    mask = 1 << result;
   }
-  return 0;
+  return result;
 }
-int test_bitReverse(int x) {
-    int result = 0;
-    int i;
-    for (i = 0; i < 32; i++) {
- int bit = (x >> i) & 0x1;
- int pos = 31-i;
- result |= bit << pos;
-    }
-    return result;
-}
-//float
-unsigned test_float_abs(unsigned uf) {
-  float f = u2f(uf);
-  unsigned unf = f2u(-f);
-  if (isnan(f))
-    return uf;
-  /* An unfortunate hack to get around a limitation of the BDD Checker */
-  if ((int) uf < 0)
-      return unf;
-  else
-      return uf;
+unsigned test_float_neg(unsigned uf) {
+    float f = u2f(uf);
+    float nf = -f;
+    if (isnan(f))
+ return uf;
+    else
+ return f2u(nf);
 }
 unsigned test_float_i2f(int x) {
   float f = (float) x;
   return f2u(f);
 }
-unsigned test_float_times64(unsigned uf) {
+unsigned test_float_twice(unsigned uf) {
   float f = u2f(uf);
-  float tenf = 64*f;
+  float tf = 2*f;
   if (isnan(f))
     return uf;
   else
-    return f2u(tenf);
+    return f2u(tf);
 }

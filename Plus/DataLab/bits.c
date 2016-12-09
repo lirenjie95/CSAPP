@@ -131,83 +131,85 @@ NOTES:
 
 
 #endif
-//1
 /* 
- * bitOr - x|y using only ~ and & 
- *   Example: bitOr(6, 5) = 7
- *   Legal ops: ~ &
+ * bitAnd - x&y using only ~ and | 
+ *   Example: bitAnd(6, 5) = 4
+ *   Legal ops: ~ |
  *   Max ops: 8
  *   Rating: 1
  */
-int bitOr(int x, int y) {
+int bitAnd(int x, int y) {
   return 2;
 }
 /* 
- * specialBits - return bit pattern 0xffca3fff
- *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 3
- *   Rating: 1
- */
-int specialBits(void) {
-
-
-
-
-    return 2;
-
-}
-//2
-/*
- * isZero - returns 1 if x == 0, and 0 otherwise 
- *   Examples: isZero(5) = 0, isZero(0) = 1
- *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 2
- *   Rating: 1
- */
-int isZero(int x) {
-  return 2;
-}
-/* 
- * anyEvenBit - return 1 if any even-numbered bit in word set to 1
- *   Examples anyEvenBit(0xA) = 0, anyEvenBit(0xE) = 1
- *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 12
- *   Rating: 2
- */
-int anyEvenBit(int x) {
-  return 2;
-}
-/* 
- * negate - return -x 
- *   Example: negate(1) = -1.
- *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 5
- *   Rating: 2
- */
-int negate(int x) {
-  return 2;
-}
-/* 
- * leastBitPos - return a mask that marks the position of the
- *               least significant 1 bit. If x == 0, return 0
- *   Example: leastBitPos(96) = 0x20
+ * getByte - Extract byte n from word x
+ *   Bytes numbered from 0 (LSB) to 3 (MSB)
+ *   Examples: getByte(0x12345678,1) = 0x56
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 6
- *   Rating: 2 
+ *   Rating: 2
  */
-int leastBitPos(int x) {
+int getByte(int x, int n) {
+
+
+
+
+
+
+
   return 2;
+
 }
-//3
 /* 
- * rotateLeft - Rotate x to the left by n
+ * logicalShift - shift x to the right by n, using a logical shift
  *   Can assume that 0 <= n <= 31
- *   Examples: rotateLeft(0x87654321,4) = 0x76543218
- *   Legal ops: ~ & ^ | + << >> !
- *   Max ops: 25
+ *   Examples: logicalShift(0x87654321,4) = 0x08765432
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 20
  *   Rating: 3 
  */
-int rotateLeft(int x, int n) {
+int logicalShift(int x, int n) {
+  return 2;
+}
+/*
+ * bitCount - returns count of number of 1's in word
+ *   Examples: bitCount(5) = 2, bitCount(7) = 3
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 40
+ *   Rating: 4
+ */
+int bitCount(int x) {
+  return 2;
+}
+/* 
+ * bang - Compute !x without using !
+ *   Examples: bang(3) = 0, bang(0) = 1
+ *   Legal ops: ~ & ^ | + << >>
+ *   Max ops: 12
+ *   Rating: 4 
+ */
+int bang(int x) {
+  return 2;
+}
+/* 
+ * tmin - return minimum two's complement integer 
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 4
+ *   Rating: 1
+ */
+int tmin(void) {
+  return 2;
+}
+/* 
+ * fitsBits - return 1 if x can be represented as an 
+ *  n-bit, two's complement integer.
+ *   1 <= n <= 32
+ *   Examples: fitsBits(5,3) = 0, fitsBits(-4,3) = 1
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 15
+ *   Rating: 2
+ */
+int fitsBits(int x, int n) {
   return 2;
 }
 /* 
@@ -222,52 +224,58 @@ int divpwr2(int x, int n) {
     return 2;
 }
 /* 
- * isLess - if x < y  then return 1, else return 0 
- *   Example: isLess(4,5) = 1.
+ * negate - return -x 
+ *   Example: negate(1) = -1.
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 5
+ *   Rating: 2
+ */
+int negate(int x) {
+  return 2;
+}
+/* 
+ * isPositive - return 1 if x > 0, return 0 otherwise 
+ *   Example: isPositive(-1) = 0.
+ *   Legal ops: ! ~ & ^ | + << >>
+ *   Max ops: 8
+ *   Rating: 3
+ */
+int isPositive(int x) {
+  return 2;
+}
+/* 
+ * isLessOrEqual - if x <= y  then return 1, else return 0 
+ *   Example: isLessOrEqual(4,5) = 1.
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 24
  *   Rating: 3
  */
-int isLess(int x, int y) {
-  return 2;
-}
-//4
-/*
- * isPower2 - returns 1 if x is a power of 2, and 0 otherwise
- *   Examples: isPower2(5) = 0, isPower2(8) = 1, isPower2(0) = 0
- *   Note that no negative number is a power of 2.
- *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 20
- *   Rating: 4
- */
-int isPower2(int x) {
+int isLessOrEqual(int x, int y) {
   return 2;
 }
 /*
- * bitReverse - Reverse bits in a 32-bit word
- *   Examples: bitReverse(0x80000002) = 0x40000001
- *             bitReverse(0x89ABCDEF) = 0xF7D3D591
+ * ilog2 - return floor(log base 2 of x), where x > 0
+ *   Example: ilog2(16) = 4
  *   Legal ops: ! ~ & ^ | + << >>
- *   Max ops: 45
+ *   Max ops: 90
  *   Rating: 4
  */
-int bitReverse(int x) {
-    return 2;
+int ilog2(int x) {
+  return 2;
 }
-//float
 /* 
- * float_abs - Return bit-level equivalent of absolute value of f for
+ * float_neg - Return bit-level equivalent of expression -f for
  *   floating point argument f.
  *   Both the argument and result are passed as unsigned int's, but
  *   they are to be interpreted as the bit-level representations of
  *   single-precision floating point values.
- *   When argument is NaN, return argument..
+ *   When argument is NaN, return argument.
  *   Legal ops: Any integer/unsigned operations incl. ||, &&. also if, while
  *   Max ops: 10
  *   Rating: 2
  */
-unsigned float_abs(unsigned uf) {
-  return 2;
+unsigned float_neg(unsigned uf) {
+ return 2;
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
@@ -282,16 +290,16 @@ unsigned float_i2f(int x) {
   return 2;
 }
 /* 
- * float_times64 - Return bit-level equivalent of expression 64*f for
+ * float_twice - Return bit-level equivalent of expression 2*f for
  *   floating point argument f.
  *   Both the argument and result are passed as unsigned int's, but
  *   they are to be interpreted as the bit-level representation of
  *   single-precision floating point values.
  *   When argument is NaN, return argument
  *   Legal ops: Any integer/unsigned operations incl. ||, &&. also if, while
- *   Max ops: 35
+ *   Max ops: 30
  *   Rating: 4
  */
-unsigned float_times64(unsigned uf) {
+unsigned float_twice(unsigned uf) {
   return 2;
 }

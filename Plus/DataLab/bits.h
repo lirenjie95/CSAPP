@@ -1,33 +1,31 @@
-//1
-int bitOr(int, int);
-int test_bitOr(int, int);
-int specialBits();
-int test_specialBits();
-//2
-int isZero(int);
-int test_isZero(int);
-int anyEvenBit();
-int test_anyEvenBit();
-int negate(int);
-int test_negate(int);
-int leastBitPos(int);
-int test_leastBitPos(int);
-//3
-int rotateLeft(int, int);
-int test_rotateLeft(int, int);
+
+int bitAnd(int, int);
+int test_bitAnd(int, int);
+int getByte(int, int);
+int test_getByte(int, int);
+int logicalShift(int, int);
+int test_logicalShift(int, int);
+int bitCount(int);
+int test_bitCount(int);
+int bang(int);
+int test_bang(int);
+int tmin();
+int test_tmin();
+int fitsBits(int, int);
+int test_fitsBits(int, int);
 int divpwr2(int, int);
 int test_divpwr2(int, int);
-int isLess(int, int);
-int test_isLess(int, int);
-//4
-int isPower2(int);
-int test_isPower2(int);
-int bitReverse(int);
-int test_bitReverse(int);
-//float
-unsigned float_abs(unsigned);
-unsigned test_float_abs(unsigned);
+int negate(int);
+int test_negate(int);
+int isPositive(int);
+int test_isPositive(int);
+int isLessOrEqual(int, int);
+int test_isLessOrEqual(int, int);
+int ilog2(int);
+int test_ilog2(int);
+unsigned float_neg(unsigned);
+unsigned test_float_neg(unsigned);
 unsigned float_i2f(int);
 unsigned test_float_i2f(int);
-unsigned float_times64(unsigned);
-unsigned test_float_times64(unsigned);
+unsigned float_twice(unsigned);
+unsigned test_float_twice(unsigned);
