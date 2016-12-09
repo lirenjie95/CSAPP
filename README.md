@@ -16,6 +16,7 @@ Computer Systems: A Programmer's Perspective, a course in Fudan University, spri
   * `Lab2` Bomb Lab
   * `Lab3` Perf Lab
   * `Lab4` Malloc Lab
+  * `Plus` Data Lab, Attack Lab, Cache Lab, Shell Lab,	Proxy Lab
 * Homeworks
   * `Homework1` for Chapter 2
   * `Homework2` for Chapter 3
@@ -23,7 +24,6 @@ Computer Systems: A Programmer's Perspective, a course in Fudan University, spri
   * `Homework4` for Chapter 6 and Chapter 7
   * `Homework5` for Chapter 8
   * `Homework6` for Chapter 9
-  * ...( To be continue)
 
 ---
 Author: [Renjie Li](https://github.com/lirenjie95)
