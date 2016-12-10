@@ -1,6 +1,8 @@
 # FudanCSAPP
 Computer Systems: A Programmer's Perspective, a course in Fudan University, spring 2016.
 
+You can view all materials on [CSAPP Lab Website](http://csapp.cs.cmu.edu/3e/labs.html).
+
 ---
 ## To my classmates
 * My work is just provided for reference. Don't be lazy and copy them without thinking.
@@ -16,7 +18,7 @@ Computer Systems: A Programmer's Perspective, a course in Fudan University, spri
   * `Lab2` Bomb Lab
   * `Lab3` Perf Lab
   * `Lab4` Malloc Lab
-  * `Plus` Data Lab, Attack Lab, Cache Lab, Shell Lab,	Proxy Lab ( not required in Fudan EE department)
+  * `Plus` Data Lab, Attack Lab, Cache Lab, Shell Lab,	Proxy Lab *( not required in EE department)*
 * Homeworks
   * `Homework1` for Chapter 2
   * `Homework2` for Chapter 3
