@@ -1,4 +1,5 @@
-
+#ifndef BITS_H
+#define BITS_H
 int bitAnd(int, int);
 int test_bitAnd(int, int);
 int getByte(int, int);
@@ -29,3 +30,4 @@ unsigned float_i2f(int);
 unsigned test_float_i2f(int);
 unsigned float_twice(unsigned);
 unsigned test_float_twice(unsigned);
+#endif
