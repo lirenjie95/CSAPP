@@ -171,7 +171,20 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  return 2;
+  int mask0 = 0x55|(0x55<<8);
+  int mask1 = 0x33|(0x33<<8);
+  int mask2 = 0xF|(0xF<<8);
+  int mask3 = 0xFF|(0xFF<<16);         //mask3 = 0x00FF00FF
+  int mask4 = 0xFF|(0xFF<<8);          //mask4 = 0x0000FFFF
+  mask0 = (mask0 << 16)+mask0;         //mask0 = 0x55555555
+  mask1 = (mask1 << 16)+mask1;         //mask1 = 0x33333333
+  mask2 = (mask2 << 16)+mask2;         //mask2 = 0x0F0F0F0F
+  x = (x & mask0) + ((x >> 1) & mask0);//对于单独一位，其1的数目等于它的值
+  x = (x & mask1) + ((x >> 2) & mask1);//将相邻位中的1相加存入低位
+  x = (x & mask2) + ((x >> 4) & mask2);//将相邻两位中1的数目相加
+  x = (x & mask3) + ((x >> 8) & mask3);//不断扩大范围直到得到最终解
+  x = (x & mask4) + ((x >> 16) & mask4);
+  return x;
 }
 /* 
  * bang - Compute !x without using !
@@ -181,7 +194,7 @@ int bitCount(int x) {
  *   Rating: 4 
  */
 int bang(int x) {
-  return 2;
+  return ~((x|(~x+1))>>31)&1;
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -202,7 +215,9 @@ int tmin(void) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
-  return 2;
+  int neg = x>>31;
+  int n_1 = n+(~0);//即n-1
+  return (neg&!((~x)>>n_1))|(~neg&!(x>>n_1));
 }
 /* 
  * divpwr2 - Compute x/(2^n), for 0 <= n <= 30
@@ -213,7 +228,11 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-    return 2;
+  int sign=x>>31;  
+  int mask=(1<<n)+(~0);  
+  int bias=sign&mask;  
+  return (x+bias)>>n; 
+  //为了向0方向近似，正数+0，负数+1
 }
 /* 
  * negate - return -x 
@@ -243,7 +262,11 @@ int isPositive(int x) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  int sub = y+(~x+1);
+  int signx = (x>>31)&1;
+  int signy = (y>>31)&1;
+  int subsign =!(sub>>31);//正的话 1  负的话是0
+  return ((signx^signy)&signx)|((signx^signy^1)&subsign);
 }
 /*
  * ilog2 - return floor(log base 2 of x), where x > 0
@@ -267,7 +290,7 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
- return 2;
+  return 2; 
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
