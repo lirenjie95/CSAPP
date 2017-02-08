@@ -276,7 +276,16 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4
  */
 int ilog2(int x) {
-  return 2;
+  int bitsNumber=0;  
+  //二分搜索，将x分为4部分 
+  bitsNumber=(!!(x>>16))<<4;  
+  bitsNumber=bitsNumber+((!!(x>>(bitsNumber+8)))<<3);  
+  bitsNumber=bitsNumber+((!!(x>>(bitsNumber+4)))<<2);  
+  bitsNumber=bitsNumber+((!!(x>>(bitsNumber+2)))<<1);  
+  bitsNumber=bitsNumber+(!!(x>>(bitsNumber+1)));  
+  //这部分解法参考网络，暂时没理解 辣鸡LL不教我口亨
+  bitsNumber=bitsNumber+(!!bitsNumber)+(~0)+(!(1^x));  
+  return bitsNumber;  
 }
 /* 
  * float_neg - Return bit-level equivalent of expression -f for
@@ -290,7 +299,11 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
-  return 2; 
+  unsigned result = uf^0x80000000;//取相反数
+  unsigned tmp = uf&(0x7fffffff);
+  if(tmp>0x7f800000)
+    result=uf;//如果uf为NaN，不做改变
+  return result;
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
@@ -302,7 +315,31 @@ unsigned float_neg(unsigned uf) {
  *   Rating: 4
  */
 unsigned float_i2f(int x) {
-  return 2;
+  unsigned shiftLeft=0;  
+  unsigned afterShift, tmp, flag;  
+  unsigned absX=x;  
+  unsigned sign=0;  
+  //0做特殊处理  
+  if (x==0) return 0;  
+  // x<0的时候sign第一位是1  
+  if(x<0){  
+    sign=0x80000000;  
+    absX=-x;  
+  }  
+  afterShift=absX;    
+  while(1){  
+    tmp=afterShift;  
+    afterShift<<=1;  
+    shiftLeft++;  
+    if (tmp & 0x80000000) break;  
+  }//将移位记录下来作为指数位
+  if ((afterShift & 0x01ff)>0x0100)  
+    flag=1;  
+  else if ((afterShift & 0x03ff)==0x0300)  
+         flag=1;  
+       else  
+         flag=0;//flag记录的是临界值
+  return sign + (afterShift>>9) + ((159-shiftLeft)<<23) + flag;  
 }
 /* 
  * float_twice - Return bit-level equivalent of expression 2*f for
@@ -316,5 +353,14 @@ unsigned float_i2f(int x) {
  *   Rating: 4
  */
 unsigned float_twice(unsigned uf) {
-  return 2;
+  unsigned f=uf;   
+  if ((f & 0x7F800000) == 0){  
+    //非规格化数左移一位 
+    f = ((f & 0x007FFFFF)<<1) | (0x80000000 & f);  
+  }  
+  else if ((f & 0x7F800000) != 0x7F800000){  
+    // f不是NaN就直接改变指数
+    f =f+0x00800000;  
+  }  
+  return f;//如果是NaN和正无穷就不做处理
 }
