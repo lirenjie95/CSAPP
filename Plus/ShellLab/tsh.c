@@ -231,6 +231,17 @@ int parseline(const char *cmdline, char **argv)
  */
 int builtin_cmd(char **argv) 
 {
+	if(!strcmp(argv[0],"quit")){
+		exit(0);
+	}
+	if(!strcmp(argv[0],"jobs")){
+		listjobs(jobs);
+		return 1;
+	}
+	if(!strcmp(argv[0],"fg")||!strcmp(argv[0],"pg")){
+		do_bgfg(argv);
+		return 1;
+	}
     return 0;     /* not a builtin command */
 }
 
@@ -273,7 +284,14 @@ void sigchld_handler(int sig)
  */
 void sigint_handler(int sig) 
 {
-    return;
+	pid_t pid = fgpid(jobs);
+	int jid = pid2jid(pid);
+	if(pid != 0){
+		printf("Job [%d] terminated by SIGINT.\n", jid);
+		deletejob(jobs, pid);
+		kill(-pid, sig);
+	}
+	return;
 }
 
 /*
@@ -283,7 +301,14 @@ void sigint_handler(int sig)
  */
 void sigtstp_handler(int sig) 
 {
-    return;
+	pid_t  pid = fgpid(jobs);
+	int jid = pid2jid(pid);
+	if(pid != 0){
+		printf("Job[%d] stopped by SIGTSTP", jid);
+		(*getjobpid(jobs, pid)).state = ST;
+		kill(-pid, sig);
+	}
+	return;
 }
 
 /*********************
@@ -504,6 +529,3 @@ void sigquit_handler(int sig)
     printf("Terminating after receipt of SIGQUIT signal\n");
     exit(1);
 }
-
-
-
