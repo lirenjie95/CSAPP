@@ -165,7 +165,43 @@ int main(int argc, char **argv)
 */
 void eval(char *cmdline) 
 {
-    return;
+	char *argv[MAXARGS];
+	char buf[MAXLINE];
+	int bg;
+	pid_t pid;
+	sigset_t mask;
+	
+	strcpy(buf, cmdline);
+	bg = parseline(buf, argv);
+	if(argv[0] == NULL)
+		return;
+	/*防止addjob和deletejob冲突，先阻塞SIGCHLD信号*/
+	sigemptyset(&mask);
+	sigaddset(&mask, SIGCHLD);
+	sigprocmask(SIG_BLOCK, &mask, NULL);
+	if(!builtin_cmd(argv)){
+		if((pid = fork()) == 0){
+			sigprocmask(SIG_UNBLOCK, &mask, NULL);
+			if(setpgid(0, 0) < 0)
+				unix_error("eval: setgpid failed.\n");
+			if(execve(argv[0], argv, environ) < 0 ){
+				printf("%s: Command not found.\n", argv[0]);
+				exit(0);
+			}
+		}
+		/*前台程序*/
+		if(!bg)
+			addjob(jobs, pid, FG, cmdline);
+		else
+			addjob(jobs, pid, BG, cmdline);
+		sigprocmask(SIG_UNBLOCK, &mask, NULL);
+		/*若在前台运行，阻塞到pid所代表到作业状态state不是FG*/
+		if(!bg)
+			waitfg(pid);
+		else
+			printf("[%d] (%d) %s\n", pid2jid(pid), pid, cmdline);
+	}
+	return;
 }
 
 /* 
@@ -199,19 +235,18 @@ int parseline(const char *cmdline, char **argv)
     }
 
     while (delim) {
-	argv[argc++] = buf;
-	*delim = '\0';
-	buf = delim + 1;
-	while (*buf && (*buf == ' ')) /* ignore spaces */
-	       buf++;
-
-	if (*buf == '\'') {
-	    buf++;
-	    delim = strchr(buf, '\'');
-	}
-	else {
-	    delim = strchr(buf, ' ');
-	}
+		argv[argc++] = buf;
+		*delim = '\0';
+		buf = delim + 1;
+		while (*buf && (*buf == ' ')) /* ignore spaces */
+			buf++;
+		if (*buf == '\'') {
+			buf++;
+			delim = strchr(buf, '\'');
+		}
+		else {
+			delim = strchr(buf, ' ');
+		}
     }
     argv[argc] = NULL;
     
@@ -220,7 +255,7 @@ int parseline(const char *cmdline, char **argv)
 
     /* should the job run in the background? */
     if ((bg = (*argv[argc-1] == '&')) != 0) {
-	argv[--argc] = NULL;
+		argv[--argc] = NULL;
     }
     return bg;
 }
@@ -250,7 +285,26 @@ int builtin_cmd(char **argv)
  */
 void do_bgfg(char **argv) 
 {
-    return;
+	char *name = argv[1];
+	struct job_t *job;
+	int jid;
+	if(name[0]=='%')
+		jid = atoi(name+sizeof(char));
+	job = getjobjid(jobs,jid);
+	if(!job){
+		printf("No such job.\n");
+		return;
+	}
+	if(!strcmp(argv[0],"fg")){
+		job->state = FG;
+		kill(-1*job->pid,SIGCONT);
+		waitfg(job->pid);
+	}
+	else{
+		job->state = BG;
+		kill(-1*job->pid,SIGCONT);
+	}
+	return;
 }
 
 /* 
@@ -258,7 +312,8 @@ void do_bgfg(char **argv)
  */
 void waitfg(pid_t pid)
 {
-    return;
+	while(pid==fgpid(jobs));
+	return;
 }
 
 /*****************
@@ -274,7 +329,24 @@ void waitfg(pid_t pid)
  */
 void sigchld_handler(int sig) 
 {
-    return;
+	pid_t pid;
+	int status, child;
+	while((pid = waitpid(-1,&status,WNOHANG|WUNTRACED))>0){
+		printf("Handler child %d\n",(int)pid);
+		sigint_handler(sig);
+		if(WIFSTOPPED(status))
+			sigtstp_handler(WSTOPSIG(status));
+		else if(WIFSIGNALED(status)){
+			child = WTERMSIG(status);
+			if(child==SIGINT)
+				sigint_handler(child);
+			else
+				unix_error("sigchld_handler: uncaught signal/n");
+		}
+		else
+			deletejob(jobs,pid);
+	}
+	return;
 }
 
 /* 
@@ -289,7 +361,7 @@ void sigint_handler(int sig)
 	if(pid != 0){
 		printf("Job [%d] terminated by SIGINT.\n", jid);
 		deletejob(jobs, pid);
-		kill(-pid, sig);
+		kill(-pid, sig);//kill all process in group abs(pid)
 	}
 	return;
 }
